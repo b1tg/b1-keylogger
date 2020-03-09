@@ -1,0 +1,14 @@
+* b1-keylogger
+
+A rust port of  https://github.com/GiacomoLaw/Keylogger
+
+
+WIP
+
+
+
+
+
+* log
+
+- 2020/03/09 hook works
